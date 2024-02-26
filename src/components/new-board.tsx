@@ -9,7 +9,6 @@ import { PlusCircle } from "lucide-react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,11 +19,16 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const NewBoard = () => {
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const formSchema = z.object({
     name: z.string().min(4, {
-      message: "Name must have 4 characters.",
+      message: "Board name must have 4 characters.",
     }),
   });
 
@@ -37,11 +41,13 @@ const NewBoard = () => {
 
   const handleNewBoard = (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    toast.success("New board created successfully");
+    setIsDialogOpen(false);
   };
 
   return (
-    <Dialog>
-      <DialogTrigger className="w-full flex gap-2 text-zinc-900 dark:text-zinc-200 hover:bg-zinc-400/20 dark:hover:bg-zinc-400/5  p-3 rounded-full">
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger className="w-full flex gap-2 transition-colors text-zinc-900 dark:text-zinc-200 hover:bg-zinc-400/20 dark:hover:bg-zinc-400/5  p-3 rounded-full">
         <PlusCircle size={18} />
         <span className="leading-5 text-sm">Create New Board</span>
       </DialogTrigger>
@@ -65,9 +71,6 @@ const NewBoard = () => {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Your new board will have this name.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
