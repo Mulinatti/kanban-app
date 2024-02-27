@@ -12,7 +12,7 @@ const Task = () => {
     <Button onClick={() => console.log("CARD")}  className="text-left w-full h-full p-0 bg-transparent hover:bg-transparent">
       <Card  className="w-full h-full transition-colors cursor-pointer hover:bg-zinc-500/10 dark:hover:bg-zinc-500/5 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-lg font-medium text-wrap">Make a form in the user edition profile sign up</CardTitle>
+          <CardTitle className="text-lg font-medium text-wrap">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</CardTitle>
           <CardContent className="p-0">
             <CardDescription className="font-normal">0/2 Subtasks to complete.</CardDescription>
           </CardContent>
