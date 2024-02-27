@@ -43,6 +43,7 @@ const NewBoard = () => {
     console.log(values);
     toast.success("New board created successfully");
     setIsDialogOpen(false);
+    form.reset();
   };
 
   return (
