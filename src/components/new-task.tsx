@@ -1,4 +1,4 @@
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -112,7 +112,15 @@ const NewTask = () => {
               )}
             />
             <div className="space-y-2">
-              <FormLabel>Subtasks</FormLabel>
+              <div className="mb-3">
+                <FormLabel
+                  className={`${
+                    subtasksInput.fields.length > 0 ? "block" : "hidden"
+                  }`}
+                >
+                  Subtasks
+                </FormLabel>
+              </div>
               {subtasksInput.fields.map((inputField, index) => (
                 <FormField
                   key={inputField.id}
@@ -121,7 +129,19 @@ const NewTask = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} />
+                        <div className="flex items-center gap-2">
+                          <Input {...field} />
+                          <Button
+                            onClick={() => {
+                              subtasksInput.remove(index);
+                            }}
+                            className="p-0 h-6 w-6"
+                            variant="ghost"
+                            type="button"
+                          >
+                            <X size={18} />
+                          </Button>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
