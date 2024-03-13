@@ -7,9 +7,16 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -17,7 +24,6 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 
 const NewTask = () => {
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const formSchema = z.object({
@@ -26,15 +32,29 @@ const NewTask = () => {
     }),
     description: z.string().min(1, {
       message: "Descriptions must have at least 1 character.",
-    })
+    }),
+    subtasks: z.array(
+      z.object({
+        title: z.string().min(1, {
+          message: "Subtask title cannot be empty",
+        }),
+        done: z.boolean(),
+      })
+    ),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      description: ""
+      description: "",
+      subtasks: [],
     },
+  });
+
+  const subtasksInput = useFieldArray({
+    control: form.control,
+    name: "subtasks",
   });
 
   const handleNewBoard = (values: z.infer<typeof formSchema>) => {
@@ -43,6 +63,11 @@ const NewTask = () => {
     setIsDialogOpen(false);
     form.reset();
   };
+
+  const appendNewSubtask = () => {
+    subtasksInput.append({ title: "", done: false });
+  };
+
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
@@ -55,40 +80,67 @@ const NewTask = () => {
         <DialogHeader>
           <DialogTitle>Add New Task</DialogTitle>
         </DialogHeader>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleNewBoard)}
-              className="space-y-8"
-            >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea className="h-24 resize-none" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">Create</Button>
-            </form>
-          </Form>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleNewBoard)}
+            className="space-y-8"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea className="h-24 resize-none" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="space-y-2">
+              <FormLabel>Subtasks</FormLabel>
+              {subtasksInput.fields.map((inputField, index) => (
+                <FormField
+                  key={inputField.id}
+                  control={form.control}
+                  name={`subtasks.${index}.title`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Button
+                onClick={appendNewSubtask}
+                className="gap-2 w-full"
+                type="button"
+                variant="secondary"
+              >
+                <PlusCircle size={18} />
+                <span>Add New Subtask</span>
+              </Button>
+            </div>
+            <Button type="submit">Create</Button>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
