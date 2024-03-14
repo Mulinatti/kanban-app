@@ -1,7 +1,12 @@
+import { useParams } from "react-router-dom";
 import Header from "./header";
 import Task from "./task";
 
 const Project = () => {
+
+  const { name } = useParams();
+
+  console.log(name);
 
   return (
     <>
