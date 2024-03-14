@@ -22,17 +22,25 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const NewTask = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const formSchema = z.object({
     name: z.string().min(1, {
-      message: "Task name must have at least 1 character.",
+      message: "Task name cannot be empty.",
     }),
     description: z.string().min(1, {
-      message: "Descriptions must have at least 1 character.",
+      message: "Description cannot be empty.",
     }),
+    status: z.string(),
     subtasks: z.array(
       z.object({
         title: z.string().min(1, {
@@ -48,6 +56,7 @@ const NewTask = () => {
     defaultValues: {
       name: "",
       description: "",
+      status: "todo",
       subtasks: [],
     },
   });
@@ -58,6 +67,11 @@ const NewTask = () => {
   });
 
   const handleNewBoard = (values: z.infer<typeof formSchema>) => {
+
+    if(values.status === "done") {
+      values.subtasks.map(subtask => subtask.done = true);
+    }
+    
     console.log(values);
     toast.success("New task created successfully");
     setIsDialogOpen(false);
@@ -157,6 +171,29 @@ const NewTask = () => {
                 <PlusCircle size={18} />
                 <span>Add New Subtask</span>
               </Button>
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                  <Select onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="todo">To-do</SelectItem>
+                      <SelectItem value="doing">Doing</SelectItem>
+                      <SelectItem value="done">Done</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem> 
+                )}
+              >
+              </FormField>
             </div>
             <Button type="submit">Create</Button>
           </form>

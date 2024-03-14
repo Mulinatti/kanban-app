@@ -1,7 +1,7 @@
 interface ITask {
   name: string;
   description: string;
-  subtasks?: string[];
+  subtasks: object[];
 }
 
 export default ITask;

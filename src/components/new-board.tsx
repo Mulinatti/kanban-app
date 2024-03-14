@@ -27,8 +27,8 @@ const NewBoard = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const formSchema = z.object({
-    name: z.string().min(4, {
-      message: "Board name must have 4 characters.",
+    name: z.string().min(1, {
+      message: "Board name cannot be empty.",
     }),
   });
 
@@ -48,9 +48,11 @@ const NewBoard = () => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger className="w-full flex gap-2 transition-colors text-zinc-900 dark:text-zinc-200 hover:bg-zinc-400/20 dark:hover:bg-zinc-400/5  p-3 rounded-full">
-        <PlusCircle size={18} />
-        <span className="leading-5 text-sm">Create New Board</span>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="rounded-full flex gap-2 w-full font-normal">
+          <PlusCircle size={18} />
+          <span className="leading-5 text-sm">Create New Board</span>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
