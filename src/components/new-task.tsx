@@ -29,9 +29,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import useBoards from "./hooks/useBoards";
+import { useParams } from "react-router-dom";
 
 const NewTask = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { setBoards } = useBoards();
+
+  const { name } = useParams();
 
   const formSchema = z.object({
     name: z.string().min(1, {
@@ -68,11 +73,19 @@ const NewTask = () => {
 
   const handleNewBoard = (values: z.infer<typeof formSchema>) => {
 
-    if(values.status === "done") {
-      values.subtasks.map(subtask => subtask.done = true);
+    if (values.status === "done") {
+      values.subtasks.map((subtask) => (subtask.done = true));
     }
-    
-    console.log(values);
+
+    setBoards(prevBoards => {
+      return prevBoards.map(board => {
+        if(board.name === name) {
+          return {...board, tasks: [...board.tasks, values]}
+        }
+        return board;
+      })
+    })
+
     toast.success("New task created successfully");
     setIsDialogOpen(false);
     form.reset();
@@ -178,22 +191,21 @@ const NewTask = () => {
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Status" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="todo">To-do</SelectItem>
-                      <SelectItem value="doing">Doing</SelectItem>
-                      <SelectItem value="done">Done</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem> 
+                    <Select onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="todo">To-do</SelectItem>
+                        <SelectItem value="doing">Doing</SelectItem>
+                        <SelectItem value="done">Done</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
                 )}
-              >
-              </FormField>
+              ></FormField>
             </div>
             <Button type="submit">Create</Button>
           </form>

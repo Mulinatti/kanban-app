@@ -1,8 +1,11 @@
-import { GalleryHorizontalEnd, LayoutDashboard } from "lucide-react";
+import { GalleryHorizontalEnd } from "lucide-react";
 import NewBoard from "./new-board";
-import { Button } from "./ui/button";
+import useBoards from "./hooks/useBoards";
+import BoardItem from "./board-item";
 
 const Sidebar = () => {
+  const { boards } = useBoards();
+
   return (
     <aside className="border-r row-span-2">
       <div className="flex gap-3 items-center h-[90px] px-5">
@@ -12,17 +15,11 @@ const Sidebar = () => {
       <section className="text-zinc-400">
         <h3 className="uppercase text-sm ml-5 mb-5 mt-3">All boards (4)</h3>
         <ul className="text-sm tracking-wide">
-          <li className="flex items-center gap-2 mr-4">
-            <Button className="bg-transparent text-zinc-100/50 flex justify-start gap-2 rounded-none hover:bg-primary-foreground rounded-r-full w-full">
-              <LayoutDashboard
-                className="text-primary dark:text-zinc-200"
-                strokeWidth={2}
-              />
-              <span className="leading-6 text-primary">Desktop Software</span>
-            </Button>
-          </li>
+          {boards.map(board => (
+            <BoardItem key={board.name + Math.random} name={board.name}/>
+          ))}
           <li className="mt-4 mx-4">
-            <NewBoard/>
+            <NewBoard />
           </li>
         </ul>
       </section>

@@ -21,26 +21,37 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
+import useBoards from "./hooks/useBoards";
 
 const NewBoard = () => {
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { boards, setBoards } = useBoards();
 
   const formSchema = z.object({
     name: z.string().min(1, {
       message: "Board name cannot be empty.",
-    }),
+    }).toLowerCase(),
+    tasks: z.array(
+      z.object({
+        name: z.string(),
+        description: z.string(),
+        status: z.string(),
+        subtasks: z.array(z.object({})),
+      })
+    ),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      tasks: [],
     },
   });
 
   const handleNewBoard = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    setBoards([...boards, values]);
     toast.success("New board created successfully");
     setIsDialogOpen(false);
     form.reset();
@@ -49,7 +60,10 @@ const NewBoard = () => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="rounded-full flex gap-2 w-full font-normal">
+        <Button
+          variant="outline"
+          className="rounded-full flex gap-2 w-full font-normal"
+        >
           <PlusCircle size={18} />
           <span className="leading-5 text-sm">Create New Board</span>
         </Button>

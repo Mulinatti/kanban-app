@@ -1,7 +1,10 @@
+import ISubtask from "./ISubtask";
+
 interface ITask {
   name: string;
   description: string;
-  subtasks: object[];
+  status: string;
+  subtasks: ISubtask[];
 }
 
 export default ITask;
