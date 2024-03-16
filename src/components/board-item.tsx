@@ -1,21 +1,25 @@
 import { LayoutDashboard } from "lucide-react";
 import { Button } from "./ui/button";
+import { Link, useParams } from "react-router-dom";
 
 interface BoardItemProps {
   name: string;
 }
 
 const BoardItem = ({name}: BoardItemProps) => {
+
+  const params = useParams();
+
   return (
-    <li className="flex items-center gap-2 mr-4">
-      <Button className="bg-transparent text-zinc-100/50 flex justify-start gap-2 rounded-none hover:bg-primary-foreground rounded-r-full w-full">
+    <Link to={`/${name}`}>
+      <Button className={`${params.name === name ? "text-secondary hover:bg-foreground/85" : "bg-transparent text-foreground ring-1 ring-primary-foreground hover:bg-muted hover:ring-muted"} w-full rounded-r-full flex justify-start gap-3`}>
         <LayoutDashboard
-          className="text-primary dark:text-zinc-200"
+          className=""
           strokeWidth={2}
         />
-        <span className="leading-6 text-primary">{name}</span>
+        <span className="leading-6">{name}</span>
       </Button>
-    </li>
+    </Link>
   );
 };
 

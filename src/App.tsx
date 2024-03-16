@@ -8,13 +8,13 @@ import { BoardsProvider } from "./contexts/BoardsContext";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <main className="font-Geist h-screen grid grid-cols-[250px_auto] grid-rows-[90px_auto]">
+      <main className="font-Geist h-screen">
         <BoardsProvider>
           <BrowserRouter>
-            <Sidebar />
             <Routes>
-              <Route path="/" element={<div />} />
-              <Route path="/:name" element={<Project />} />
+              <Route path="/" element={<Sidebar/>}>
+                <Route path="/:name" element={<Project />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </BoardsProvider>
