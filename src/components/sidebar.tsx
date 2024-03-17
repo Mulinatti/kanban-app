@@ -2,10 +2,13 @@ import { GalleryHorizontalEnd } from "lucide-react";
 import NewBoard from "./new-board";
 import useBoards from "./hooks/useBoards";
 import BoardItem from "./board-item";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 
 const Sidebar = () => {
   const { boards } = useBoards();
+
+  const params = useParams();
+  const thisBoardExist = boards.find((board) => board.id === params.id);
 
   return (
     <div className="grid grid-cols-[250px_auto] grid-rows-[90px_auto] h-screen">
@@ -17,9 +20,9 @@ const Sidebar = () => {
         <section className="text-zinc-400">
           <h3 className="uppercase text-sm ml-5 mb-5 mt-3">All boards (4)</h3>
           <ul className="text-sm tracking-wide">
-            {boards.map(board => (
-              <li className="mr-4 mb-2">
-                <BoardItem key={board.name + Math.random} name={board.name}/>
+            {boards.map((board) => (
+              <li key={board.id} className="mr-4 mb-2">
+                <BoardItem id={board.id} name={board.name} />
               </li>
             ))}
             <li className="mt-4 mx-4">
@@ -28,7 +31,17 @@ const Sidebar = () => {
           </ul>
         </section>
       </aside>
-      <Outlet/>
+      {
+        params.id ? (
+          thisBoardExist ? (
+            <Outlet />
+          ) : (
+            "Sorry this board couldn't be found"
+          )
+        ) : (
+          "Let's start a new kanban ?"
+        ) // make a component to this messages
+      }
     </div>
   );
 };

@@ -22,13 +22,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
 import useBoards from "./hooks/useBoards";
+import { v4 as uuid } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const NewBoard = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { boards, setBoards } = useBoards();
+  const navigate = useNavigate();
 
   const formSchema = z.object({
+    id: z.string(),
     name: z.string().min(1, {
       message: "Board name cannot be empty.",
     }).toLowerCase(),
@@ -37,7 +41,10 @@ const NewBoard = () => {
         name: z.string(),
         description: z.string(),
         status: z.string(),
-        subtasks: z.array(z.object({})),
+        subtasks: z.array(z.object({
+          title: z.string(),
+          done: z.boolean()
+        })),
       })
     ),
   });
@@ -45,16 +52,19 @@ const NewBoard = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      id: "",
       name: "",
       tasks: [],
     },
   });
 
   const handleNewBoard = (values: z.infer<typeof formSchema>) => {
+    values.id = uuid();
     setBoards([...boards, values]);
     toast.success("New board created successfully");
     setIsDialogOpen(false);
     form.reset();
+    navigate(`/${values.id}`);
   };
 
   return (

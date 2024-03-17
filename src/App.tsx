@@ -13,7 +13,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Sidebar/>}>
-                <Route path="/:name" element={<Project />} />
+                <Route path="/:id" element={<Project />} />
               </Route>
             </Routes>
           </BrowserRouter>

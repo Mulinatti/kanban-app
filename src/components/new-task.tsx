@@ -36,7 +36,7 @@ const NewTask = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { setBoards } = useBoards();
 
-  const { name } = useParams();
+  const { id } = useParams();
 
   const formSchema = z.object({
     name: z.string().min(1, {
@@ -79,7 +79,7 @@ const NewTask = () => {
 
     setBoards(prevBoards => {
       return prevBoards.map(board => {
-        if(board.name === name) {
+        if(board.id === id) {
           return {...board, tasks: [...board.tasks, values]}
         }
         return board;
@@ -94,6 +94,9 @@ const NewTask = () => {
   const appendNewSubtask = () => {
     subtasksInput.append({ title: "", done: false });
   };
+
+  console.log(id);
+  
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

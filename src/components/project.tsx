@@ -4,10 +4,10 @@ import Task from "./task";
 import useBoards from "./hooks/useBoards";
 
 const Project = () => {
-  const { name } = useParams();
+  const { id } = useParams();
   const { boards } = useBoards();
 
-  const kanban = boards.find((board) => board.name === name);
+  const kanban = boards.find((board) => board.id === id);
 
   console.log(kanban);
 
