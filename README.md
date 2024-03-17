@@ -4,7 +4,7 @@
 # React + TypeScript + Vite
 
 
-To run the application on your local will need to use the following commands:
+To run the application on your local you will need to use the following commands:
 
 ```
 npm install
