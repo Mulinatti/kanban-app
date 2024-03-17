@@ -27,13 +27,12 @@ const Task = ({ task }: TaskProps) => {
           </CardTitle>
           <CardContent className="p-0">
             <CardDescription className="font-normal">
-              {subtasks.reduce((completed, subtask) => {
+              {subtasks.length ? `${subtasks.reduce((completed, subtask) => {
                 if (subtask.done) {
                   return completed + 1;
                 }
                 return completed;
-              }, 0)}
-              /{subtasks.length} Subtasks completed
+              }, 0)}/${subtasks.length} Subtasks completed` : "No Subtasks" }
             </CardDescription>
           </CardContent>
         </CardHeader>
