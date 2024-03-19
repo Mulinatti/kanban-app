@@ -1,15 +1,17 @@
 import ITask from "@/interfaces/ITask";
 import Task from "./task";
+import IBoard from "@/interfaces/IBoard";
 
 interface StatusBoardProps {
   tasks?: ITask[];
+  board: IBoard;
 }
 
-const StatusBoard = ({ tasks }: StatusBoardProps) => {
+const StatusBoard = ({ tasks, board }: StatusBoardProps) => {
   return (
-    <ul className="">
+    <ul className="space-y-3">
       {tasks!.map((task) => (
-        <Task task={task} key={task.name} />
+        <Task boardData={board} task={task} key={task.name} />
       ))}
     </ul>
   );

@@ -18,7 +18,7 @@ const BoardItem = ({id, name}: BoardItemProps) => {
           className=""
           strokeWidth={2}
         />
-        <span className="leading-6">{name}</span>
+        <span className="leading-6 capitalize">{name}</span>
       </Button>
     </Link>
   );

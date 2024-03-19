@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -80,7 +81,7 @@ const NewBoard = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-xl">
+          <DialogTitle>
             Add a new board to your Kanban
           </DialogTitle>
         </DialogHeader>
@@ -102,7 +103,9 @@ const NewBoard = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Create</Button>
+            <DialogFooter>
+              <Button type="submit">Create</Button>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>

@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import Header from "./header";
 import useBoards from "./hooks/useBoards";
 import StatusBoard from "./status-board";
-import { Circle } from "lucide-react";
 
 const Project = () => {
   const { id } = useParams();
@@ -29,13 +28,13 @@ const Project = () => {
 
   return (
     <>
-      <Header />
+      <Header name={kanban!.name} />
       <section className="grid grid-cols-3 gap-3 max-h-16 p-5">
         {status.map(
           (stat) =>
             kanban?.tasks.find((task) => stat.name === task.status) && (
-              <div>
-                <div className="flex items-center gap-2.5 shadow-md mb-5">
+              <div key={stat.name}>
+                <div className="flex items-center gap-2.5 mb-5">
                   <div
                     className={`${stat.color} w-3.5 h-3.5 rounded-full flex justify-center items-center`}
                   >
@@ -44,6 +43,7 @@ const Project = () => {
                   <h3 className={"font-medium capitalize"}>{stat.name}</h3>
                 </div>
                 <StatusBoard
+                  board={kanban}
                   tasks={kanban?.tasks.filter(
                     (task) => task.status === stat.name
                   )}

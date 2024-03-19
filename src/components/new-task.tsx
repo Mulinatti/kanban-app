@@ -2,6 +2,7 @@ import { PlusCircle, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -210,7 +211,9 @@ const NewTask = () => {
                 )}
               ></FormField>
             </div>
-            <Button type="submit">Create</Button>
+            <DialogFooter>
+              <Button type="submit">Create</Button>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
