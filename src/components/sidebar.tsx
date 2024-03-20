@@ -18,7 +18,7 @@ const Sidebar = () => {
           <span className="font-semibold text-2xl leading-5">Kanban</span>
         </div>
         <section className="text-zinc-400">
-          <h3 className="uppercase text-sm ml-5 mb-5 mt-3">All boards (4)</h3>
+          <h3 className="uppercase text-sm ml-5 mb-5 mt-3">All boards ({boards.length})</h3>
           <ul className="text-sm tracking-wide">
             {boards.map((board) => (
               <li key={board.id} className="mr-4 mb-2">
