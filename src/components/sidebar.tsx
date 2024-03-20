@@ -36,11 +36,14 @@ const Sidebar = () => {
           thisBoardExist ? (
             <Outlet />
           ) : (
-            "Sorry this board couldn't be found"
+            <h2 className="text-3xl font-bold text-center space-y-2 w-full h-screen flex flex-col justify-center">Sorry this board couldn't be found</h2>
           )
         ) : (
-          "Let's start a new kanban ?"
-        ) // make a component to this messages
+          <div className="text-center space-y-2 w-full h-screen flex flex-col justify-center">
+            <h2 className="text-4xl font-bold">Let's start a new Kanban ?</h2>
+            <p className="text-lg">Click in <strong className="underline">Create New Board</strong> to start</p>
+          </div>
+        )
       }
     </div>
   );
