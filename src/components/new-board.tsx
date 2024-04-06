@@ -26,29 +26,34 @@ import useBoards from "./hooks/useBoards";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
 
+const formSchema = z.object({
+  id: z.string(),
+  name: z
+    .string()
+    .min(1, {
+      message: "Board name cannot be empty.",
+    })
+    .toLowerCase(),
+  tasks: z.array(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      status: z.string(),
+      subtasks: z.array(
+        z.object({
+          title: z.string(),
+          done: z.boolean(),
+        })
+      ),
+    })
+  ),
+});
+
 const NewBoard = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { boards, setBoards } = useBoards();
   const navigate = useNavigate();
-
-  const formSchema = z.object({
-    id: z.string(),
-    name: z.string().min(1, {
-      message: "Board name cannot be empty.",
-    }).toLowerCase(),
-    tasks: z.array(
-      z.object({
-        name: z.string(),
-        description: z.string(),
-        status: z.string(),
-        subtasks: z.array(z.object({
-          title: z.string(),
-          done: z.boolean()
-        })),
-      })
-    ),
-  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -81,9 +86,7 @@ const NewBoard = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Add a new board to your Kanban
-          </DialogTitle>
+          <DialogTitle>Add a new board to your Kanban</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

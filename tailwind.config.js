@@ -22,6 +22,7 @@ module.exports = {
         "Geist": ["Geist", "sans-serif"],
       },
       colors: {
+        pastel: "hsl(var(--pastel))", //color used in more options dialogs
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

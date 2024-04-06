@@ -93,6 +93,8 @@
     --ring: 240 10% 3.9%;
  
     --radius: 0.5rem;
+
+    --pastel: 0 0% 42.9%;
   }
  
   .dark {
@@ -124,12 +126,15 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+
+    --pastel: 0, 0%, 25%;
   }
 }
  
 @layer base {
   * {
     @apply border-border;
+    
   }
   body {
     @apply bg-background text-foreground;
