@@ -18,7 +18,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Checkbox } from "./ui/checkbox";
-import useBoards from "./hooks/useBoards";
+import useBoards from "../hooks/useBoards";
 import { useEffect, useState } from "react";
 import ISubtask from "@/interfaces/ISubtask";
 import IBoard from "@/interfaces/IBoard";

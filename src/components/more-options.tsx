@@ -22,7 +22,7 @@ import {
 } from "./ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
-import useBoards from "./hooks/useBoards";
+import useBoards from "../hooks/useBoards";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";

@@ -1,6 +1,6 @@
 import { GalleryHorizontalEnd } from "lucide-react";
 import NewBoard from "./new-board";
-import useBoards from "./hooks/useBoards";
+import useBoards from "../hooks/useBoards";
 import BoardItem from "./board-item";
 import { Outlet, useParams } from "react-router-dom";
 import { ModeToggle } from "./mode-toggle";

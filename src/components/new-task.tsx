@@ -30,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import useBoards from "./hooks/useBoards";
+import useBoards from "../hooks/useBoards";
 import { useParams } from "react-router-dom";
 
 const NewTask = () => {
