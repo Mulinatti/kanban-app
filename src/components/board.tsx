@@ -44,22 +44,18 @@ const Board = () => {
     setBoards((prevBoards) => {
       const updatedBoards = prevBoards.map((board) => {
         if (board.id === id) {
-          // Crie uma cópia das tarefas do board
+
           const updatedTasks = Array.from(board.tasks);
           
-          // Encontre a tarefa movida
           const movedTaskIndex = updatedTasks.findIndex(task => task.id === draggableId);
           const movedTask = updatedTasks[movedTaskIndex];
 
-          // Remova a tarefa da posição original
           updatedTasks.splice(movedTaskIndex, 1);
 
-          // Atualize o status da tarefa se necessário
           if (source.droppableId !== destination.droppableId) {
             movedTask.status = destination.droppableId;
           }
-
-          // Adicione a tarefa na nova posição
+          
           updatedTasks.splice(destination.index, 0, movedTask);
 
           return { ...board, tasks: updatedTasks };
