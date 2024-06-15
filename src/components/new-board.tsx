@@ -36,6 +36,7 @@ const formSchema = z.object({
     .toLowerCase(),
   tasks: z.array(
     z.object({
+      id: z.string(),
       name: z.string(),
       description: z.string(),
       status: z.string(),

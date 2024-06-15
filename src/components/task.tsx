@@ -22,17 +22,21 @@ import useBoards from "../hooks/useBoards";
 import { useEffect, useState } from "react";
 import ISubtask from "@/interfaces/ISubtask";
 import IBoard from "@/interfaces/IBoard";
+import { Draggable } from "react-beautiful-dnd";
 
 interface TaskProps {
+  index: number;
   task: ITask;
   boardData: IBoard;
 }
 
-const Task = ({ task, boardData }: TaskProps) => {
+const Task = ({ task, boardData, index }: TaskProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [taskData, setTaskData] = useState<ITask>(task);
-  const [selectedSubtasks, setSelectedSubtasks] = useState<ISubtask[]>(task.subtasks);
+  const [selectedSubtasks, setSelectedSubtasks] = useState<ISubtask[]>(
+    task.subtasks
+  );
 
   const { setBoards } = useBoards();
 
@@ -48,7 +52,7 @@ const Task = ({ task, boardData }: TaskProps) => {
     setTaskData({ ...task, subtasks: selectedSubtasks });
 
     const modifiedTasks = boardData.tasks.map((task) => {
-      if (task.name === taskData.name) {
+      if (task.id === taskData.id) {
         return { ...task, subtasks: selectedSubtasks };
       }
       return task;
@@ -72,31 +76,38 @@ const Task = ({ task, boardData }: TaskProps) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild className="w-full">
-        <Button
-          onClick={() => console.log("CARD")}
-          className="text-left w-full h-full p-0 bg-transparent hover:bg-transparent"
-        >
-          <Card className="w-full h-full transition-colors cursor-pointer hover:bg-zinc-500/10 dark:hover:bg-zinc-500/5 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium text-wrap capitalize">
-                {task.name}
-              </CardTitle>
-              <CardContent className="p-0">
-                <CardDescription className="font-normal">
-                  {task.subtasks.length
-                    ? `${task.subtasks.reduce((completed, subtask) => {
-                        if (subtask.done) {
-                          return completed + 1;
-                        }
-                        return completed;
-                      }, 0)}/${task.subtasks.length} Subtasks completed`
-                    : "No Subtasks"}
-                </CardDescription>
-              </CardContent>
-            </CardHeader>
-          </Card>
-        </Button>
+      <DialogTrigger className="w-full">
+        <Draggable draggableId={task.id} index={index}>
+          {(provided) => (
+            <div
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+              onClick={() => console.log("CARD")}
+              className="text-left w-full h-full p-0 bg-transparent hover:bg-transparent"
+            >
+              <Card className="w-full h-full transition-colors cursor-pointer hover:bg-zinc-500/10 dark:hover:bg-zinc-500/5 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-lg font-medium text-wrap capitalize">
+                    {task.name}
+                  </CardTitle>
+                  <CardContent className="p-0">
+                    <CardDescription className="font-normal">
+                      {task.subtasks.length
+                        ? `${task.subtasks.reduce((completed, subtask) => {
+                            if (subtask.done) {
+                              return completed + 1;
+                            }
+                            return completed;
+                          }, 0)}/${task.subtasks.length} Subtasks completed`
+                        : "No Subtasks"}
+                    </CardDescription>
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            </div>
+          )}
+        </Draggable>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -112,7 +123,9 @@ const Task = ({ task, boardData }: TaskProps) => {
                   onCheckedChange(e as boolean, subtask.title)
                 }
               />
-              <label className={`${subtask.done && "line-through"} text-sm`}>{subtask.title}</label>
+              <label className={`${subtask.done && "line-through"} text-sm`}>
+                {subtask.title}
+              </label>
             </div>
           ))}
         </div>

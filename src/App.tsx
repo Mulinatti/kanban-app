@@ -1,4 +1,4 @@
-import Project from "@/components/project";
+import Board from "@/components/board";
 import { ThemeProvider } from "@/components/theme-provider";
 import Sidebar from "@/components/sidebar";
 import { Toaster } from "@/components/ui/sonner";
@@ -13,7 +13,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Sidebar />}>
-                <Route path="/:id" element={<Project />} />
+                <Route path="/:id" element={<Board />} />
               </Route>
             </Routes>
           </BrowserRouter>

@@ -32,6 +32,7 @@ import {
 } from "./ui/select";
 import useBoards from "../hooks/useBoards";
 import { useParams } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 
 const NewTask = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -40,6 +41,7 @@ const NewTask = () => {
   const { id } = useParams();
 
   const formSchema = z.object({
+    id: z.string(),
     name: z.string().min(1, {
       message: "Task name cannot be empty.",
     }),
@@ -60,9 +62,10 @@ const NewTask = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      id: "", 
       name: "",
       description: "",
-      status: "todo",
+      status: "to-do",
       subtasks: [],
     },
   });
@@ -72,8 +75,8 @@ const NewTask = () => {
     name: "subtasks",
   });
 
-  const handleNewBoard = (values: z.infer<typeof formSchema>) => {
-
+  const handleNewTask = (values: z.infer<typeof formSchema>) => {
+    values.id = uuid();
     if (values.status === "done") {
       values.subtasks.map((subtask) => (subtask.done = true));
     }
@@ -95,10 +98,7 @@ const NewTask = () => {
   const appendNewSubtask = () => {
     subtasksInput.append({ title: "", done: false });
   };
-
-  console.log(id);
   
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
@@ -113,7 +113,7 @@ const NewTask = () => {
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleNewBoard)}
+            onSubmit={form.handleSubmit(handleNewTask)}
             className="space-y-8"
           >
             <FormField
@@ -202,7 +202,7 @@ const NewTask = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="todo">To-do</SelectItem>
+                        <SelectItem value="to-do">To-do</SelectItem>
                         <SelectItem value="doing">Doing</SelectItem>
                         <SelectItem value="done">Done</SelectItem>
                       </SelectContent>
