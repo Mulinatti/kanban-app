@@ -104,12 +104,12 @@ const NewTask = () => {
       <DialogTrigger asChild>
         <Button className="flex gap-2">
           <PlusCircle size={20} />
-          <span className="font-medium">Add New Task</span>
+          <span className="font-medium hidden sm:inline">Add New Task</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="overflow-y-scroll max-h-[545px] scrollbar scrollbar-w-1 scrollbar-thumb-rounded-full scrollbar-thumb-primary/30">
         <DialogHeader>
-          <DialogTitle>Add New Task</DialogTitle>
+          <DialogTitle className="text-left">Add New Task</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

@@ -139,4 +139,8 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  ol li::before {
+    @apply bg-red-500 w-0;
+  }
 }

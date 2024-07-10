@@ -7,7 +7,7 @@ export function ModeToggle() {
   const { setTheme } = useTheme();
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col lg:flex-row z-50 mb-12 lg:mb-4 items-center gap-2">
       <Button
         onClick={() => setTheme("dark")}
         variant="ghost"
@@ -15,7 +15,7 @@ export function ModeToggle() {
       >
         <Moon size={20} />
       </Button>
-      <div className="border-r border-primary/30 h-5"></div>
+      <div className="border-b lg:border-b-0 lg:border-r border-primary/30 lg:h-5 w-5 lg:w-0"></div>
       <Button
         onClick={() => setTheme("light")}
         variant="ghost"

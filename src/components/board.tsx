@@ -33,21 +33,25 @@ const Board = () => {
 
   const handleDragEnd = (draggedTask: DropResult) => {
     console.log(draggedTask);
-  
+
     const { destination, source, draggableId } = draggedTask;
 
-    if(!destination) return;
+    if (!destination) return;
 
-    if(destination?.droppableId == source.droppableId && source.index == destination.index )
+    if (
+      destination?.droppableId == source.droppableId &&
+      source.index == destination.index
+    )
       return;
 
     setBoards((prevBoards) => {
       const updatedBoards = prevBoards.map((board) => {
         if (board.id === id) {
-
           const updatedTasks = Array.from(board.tasks);
-          
-          const movedTaskIndex = updatedTasks.findIndex(task => task.id === draggableId);
+
+          const movedTaskIndex = updatedTasks.findIndex(
+            (task) => task.id === draggableId
+          );
           const movedTask = updatedTasks[movedTaskIndex];
 
           updatedTasks.splice(movedTaskIndex, 1);
@@ -55,7 +59,7 @@ const Board = () => {
           if (source.droppableId !== destination.droppableId) {
             movedTask.status = destination.droppableId;
           }
-          
+
           updatedTasks.splice(destination.index, 0, movedTask);
 
           return { ...board, tasks: updatedTasks };
@@ -65,37 +69,38 @@ const Board = () => {
 
       return updatedBoards;
     });
-
   };
-  
+
   return (
     <>
       <Header name={kanban!.name} />
       <DragDropContext onDragEnd={handleDragEnd}>
-        <ul className="grid grid-cols-3 gap-3 p-5">
-          {status.map((stat) => (
-            <li
-              className="hover:bg-muted/50 p-2 transition-all rounded-lg"
-              key={stat.name}
-            >
-              <div className="flex items-center gap-2.5 mb-5">
-                <div
-                  className={`${stat.color} w-3.5 h-3.5 rounded-full flex justify-center items-center`}
-                >
-                  <div className="h-2 w-2 rounded-full bg-white/30"></div>
+        <div className="overflow-x-scroll p-5 scrollbar scrollbar-h-2 scrollbar-w-2 scrollbar-thumb-rounded-full scrollbar-thumb-primary/30">
+          <ul className="grid grid-cols-3 h-full gap-3 min-w-[728px] md:w-full">
+            {status.map((stat) => (
+              <li
+                className="hover:bg-muted/50 p-2 transition-all rounded-lg"
+                key={stat.name}
+              >
+                <div className="flex items-center gap-2.5 mb-5">
+                  <div
+                    className={`${stat.color} w-3.5 h-3.5 rounded-full flex justify-center items-center`}
+                  >
+                    <div className="h-2 w-2 rounded-full bg-white/30"></div>
+                  </div>
+                  <h3 className={"font-medium capitalize"}>{stat.name}</h3>
                 </div>
-                <h3 className={"font-medium capitalize"}>{stat.name}</h3>
-              </div>
-              <StatusBoard
-                status={stat.name}
-                board={kanban!}
-                tasks={kanban?.tasks.filter(
-                  (task) => task.status === stat.name
-                )}
-              />
-            </li>
-          ))}
-        </ul>
+                <StatusBoard
+                  status={stat.name}
+                  board={kanban!}
+                  tasks={kanban?.tasks.filter(
+                    (task) => task.status === stat.name
+                  )}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       </DragDropContext>
     </>
   );

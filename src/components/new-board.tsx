@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PlusCircle } from "lucide-react";
+import { Plus, PlusCircle } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -79,10 +79,13 @@ const NewBoard = () => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="rounded-full flex gap-2 w-full font-normal"
+          className="rounded-full w-full p-0 font-normal"
         >
-          <PlusCircle size={18} />
-          <span className="leading-5 text-sm">Create New Board</span>
+          <div className="hidden lg:flex gap-2 items-center">
+            <PlusCircle size={18} />
+            <span className="leading-5 text-sm">Create New Board</span>
+          </div>
+          <Plus className="lg:hidden" size={18}/>
         </Button>
       </DialogTrigger>
       <DialogContent>
