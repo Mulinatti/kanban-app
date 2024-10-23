@@ -1,5 +1,5 @@
 import IBoard from "@/interfaces/IBoard";
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 interface BoardsContextProps {
   boards: IBoard[];
@@ -15,7 +15,14 @@ export const BoardsContext = createContext<BoardsContextProps>(
 );
 
 export const BoardsProvider = ({ children }: BoardsProviderProps) => {
-  const [boards, setBoards] = useState<IBoard[]>([]);
+  const [boards, setBoards] = useState<IBoard[]>(() => {
+    const storedData = localStorage.getItem("boards");
+    return storedData ? JSON.parse(storedData) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("boards", JSON.stringify(boards));
+  }, [boards]);
 
   return (
     <BoardsContext.Provider value={{ boards, setBoards }}>

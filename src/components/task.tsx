@@ -86,7 +86,7 @@ const Task = ({ task, boardData, index }: TaskProps) => {
               onClick={() => console.log("CARD")}
               className="text-left w-full h-full p-0 bg-transparent hover:bg-transparent"
             >
-              <Card className="w-full h-full transition-colors cursor-pointer hover:bg-zinc-500/10 dark:hover:bg-zinc-500/5 shadow-lg">
+              <Card className="w-full h-full transition-colors cursor-pointer hover:bg-zinc-200/10 dark:hover:bg-zinc-500/5 shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-lg font-medium text-wrap capitalize">
                     {task.name}
