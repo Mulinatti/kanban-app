@@ -4,6 +4,7 @@ import Sidebar from "@/components/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BoardsProvider } from "./contexts/BoardsContext";
+import NotFound from "./components/not-found";
 
 function App() {
   return (
@@ -15,9 +16,7 @@ function App() {
               <Route path="/" element={<Sidebar />}>
                 <Route path="/:id" element={<Board />} />
               </Route>
-              <Route path="*" element={<h2 className="text-2xl lg:text-3xl p-5 lg:p-0 font-bold text-center space-y-2 w-full h-screen flex flex-col justify-center">
-                Page Not Foud
-              </h2>}/>
+              <Route path="*" element={<NotFound/>}/>
             </Routes>
           </BrowserRouter>
         </BoardsProvider>
